@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import  {Button} from 'react-bootstrap';
+
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -23,7 +26,20 @@ class App extends Component {
 
     return (
       <div>
-      <h1>Phone Book APP</h1>
+      <h1>Phone Book</h1>
+      <form>
+      <input type='text'/>
+      <Button bsStyle="primary">Search</Button>
+      </form>
+      <table className="table table-striped table-dark">
+      <thead>
+      <tr>
+      <th>ID</th>
+      <th>First name</th>
+      <th>Last name</th>
+      <th>Phone number</th>
+      </tr>
+      </thead>
        {contacts.map((contact)=> <DisplayContacts 
                                 key={contact.id}
                                 id={contact.id}
@@ -33,15 +49,14 @@ class App extends Component {
                                 />
       )}
       <DisplayContacts contacts={contacts}/>
+      </table>
       </div>
     );
   }
 }
 
 function DisplayContacts(props){
-  return(
-    <table>
-   
+  return(   
     <tbody>
     <tr>
     <td>{props.id}</td>
@@ -50,22 +65,7 @@ function DisplayContacts(props){
     <td>{props.number}</td>
     </tr>
     </tbody>
-    </table>
     )}
-  // return(
-  //   <div>
-  //   {props.contacts.map((contact) => {
-  //     return (
-  //       <div>
-  //       <p>{contact.first_name}</p>
-  //       <p>{contact.last_name}</p>
-  //       <p>{contact.number}</p>
-  //       </div>
-  //       )
-  //   })}
-  //   </div>
-  //   )}
-
 
 
 export default App;

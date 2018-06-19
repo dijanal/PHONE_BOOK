@@ -1,0 +1,30 @@
+body {
+	background: url('./assets/background.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h1{
+	margin-bottom: 80px;
+	justify-content: left;
+	align-items: left;
+	font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif	
+	;
+}
+
+form{
+	padding: 10px;
+}
+
+input {
+	margin-right: 5px;
+}
+table>tbody tr:hover{
+	background-color: grey;
+}
+
