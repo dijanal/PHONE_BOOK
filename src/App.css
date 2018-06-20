@@ -21,10 +21,20 @@ form{
 	padding: 10px;
 }
 
-input {
+input,.searchButton {
 	margin-right: 5px;
 }
+
 table>tbody tr:hover{
 	background-color: grey;
 }
+
+i{
+	cursor:pointer;
+}
+
+.modal-body {
+	margin-bottom: 5px;
+/*	text-align: center;
+*/}
 
