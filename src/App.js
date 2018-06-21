@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import  {Button,Modal} from 'react-bootstrap';
+import  {Button} from 'react-bootstrap';
 import 'font-awesome/css/font-awesome.min.css';
 import $ from 'jquery'
 
@@ -9,20 +9,23 @@ import $ from 'jquery'
 class App extends Component {
   constructor(props){
     super(props);
-    this.state={contacts:[],show:false}
-
-    this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);    
+    this.state={contacts:[],search:null,newContact:{}}  
   }
 
 
-
-  handleClose() {
-    this.setState({ show: false });
+  search(event){
+    event.preventDefault()
+    this.setState({search:event.target.value})
   }
 
-  handleShow() {
-    this.setState({ show: true });
+  setSearch(){
+    console.log(this.state.search)
+    // let search=this.state.search
+    // let first_name=$('#first_name')
+    // let last_name=$('#last_name')
+    // if(search==first_name){
+    //   alert (search)}
+    
   }
 
   componentDidMount(){
@@ -31,8 +34,25 @@ class App extends Component {
      .then(json => this.setState({contacts:json}))
       .catch(error => {console.log(error)})
     }
+
+
+
+
     
-   // addNew(){
+   addNew(){
+      let newContact={
+        first_name:$('#first_name').val(),
+        last_name:$('#last_name').val(),
+        number:$('#number').val()
+      }
+
+      fetch('http://localhost:3000/phone_book/post',{
+      method:'POST',
+      body:JSON.stringify(newContact),
+          }).then((body)=>console.log(body)
+          ).then(this.setState(prev => ({ contacts:[...prev.contacts,newContact]})))
+      }
+    
 
    //  let firstName=$('#insert')
    //  let lastName=$('#last')
@@ -53,18 +73,13 @@ class App extends Component {
 
   render() {
     const contacts=this.state.contacts;
-    console.log(contacts)
-
     return (
       <div>
       <h1>Phone Book</h1>
       <form>
-      <input type='text'/>
-      <Button bsStyle="success" className='searchButton' >Search</Button>
+      <input type='text'  onChange={this.search.bind(this)}/>
+      <Button bsStyle="success" className='searchButton'  onClick={this.setSearch.bind(this)}>Search</Button>
       <Button bsStyle="primary" data-toggle="modal" data-target="#exampleModalCenter" data-toggle="modal" data-target="#myModal">Add new</Button>
-
-{/*<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>*/}
-
   <div className="modal fade" id="myModal" role="dialog">
     <div className="modal-dialog">
     
@@ -74,12 +89,12 @@ class App extends Component {
           <h4 className="modal-title">Add new contact</h4>
         </div>
         <div className="modal-body">
-          <p>First name: </p><input type='text'/>
-          <p>Last name:</p><input type='text'/>
-          <p>Phone number:</p> <input type='number'/>
+          <p>First name: </p><input type='text' id='first_name'/>
+          <p>Last name:</p><input type='text' id='last_name'/>
+          <p>Phone number:</p> <input type='number' id='number'/>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-default">Save</button>
+          <button type="button" className="btn btn-default" onClick={this.addNew.bind(this)}>Save</button>
         </div>
       </div>
       
@@ -89,14 +104,13 @@ class App extends Component {
       <table className="table table-striped table-dark">
       <thead>
       <tr>
-      <th>ID</th>
       <th>First name</th>
       <th>Last name</th>
       <th>Phone number</th>
       </tr>
       </thead>
-       {contacts.map((contact)=> <DisplayContacts 
-                                key={contact.id}
+       {contacts.map((contact,key)=> <DisplayContacts
+                                key={key} 
                                 id={contact.id}
                                 first_name={contact.first_name}
                                 last_name={contact.last_name}
@@ -111,16 +125,15 @@ class App extends Component {
 }
 
 function DisplayContacts(props){
-  return(   
-    <tbody>
-    <tr>
-    <td>{props.id}</td>
-    <td>{props.first_name}</td>
-    <td>{props.last_name}</td>
+  return( 
+  <tbody> 
+  <tr>
+    <td >{props.first_name}</td>
+    <td >{props.last_name}</td>
     <td>{props.number}</td>
     <td><i className="fa fa-minus-circle" title='Delete'></i></td>
-    </tr>
-    </tbody>
+  </tr>
+  </tbody>
     )}
 
 

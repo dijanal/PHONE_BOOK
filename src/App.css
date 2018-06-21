@@ -7,6 +7,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  	font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif	
+
 }
 
 h1{
@@ -25,7 +27,7 @@ input,.searchButton {
 	margin-right: 5px;
 }
 
-table>tbody tr:hover{
+tr:hover{
 	background-color: grey;
 }
 
