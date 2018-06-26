@@ -27,9 +27,6 @@ input,.searchButton {
 	margin-right: 5px;
 }
 
-tr:hover{
-	background-color: grey;
-}
 
 i{
 	cursor:pointer;
@@ -39,4 +36,5 @@ i{
 	margin-bottom: 5px;
 /*	text-align: center;
 */}
+
 

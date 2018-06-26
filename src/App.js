@@ -9,7 +9,7 @@ import $ from 'jquery'
 class App extends Component {
   constructor(props){
     super(props);
-    this.state={contacts:[],search:null,newContact:{}}  
+    this.state={contacts:[],search:[],newContact:{}}  
 
     this.deleteContact=this.deleteContact.bind(this)
   }
@@ -22,14 +22,18 @@ class App extends Component {
 
   setSearch(){
     console.log(this.state.search)
+
+     // this.state.contacts.filter(
+     //  (contact) => {return contact.first_name.toLowerCase().indexOf(this.state.search) !== -1;
+     //  }
+     //  )
   }
 
   componentDidMount(){
-       fetch("http://localhost:3000/phone_book/contacts")
+      fetch("http://localhost:3000/phone_book/contacts")
       .then(response => response.json())
-     .then(json => this.setState({contacts:json}))
-      .catch(error => {console.log(error)})
-    }
+      .then(json => this.setState({contacts:json}))
+      .catch(error => {console.log(error)})    }
 
 
     
@@ -40,8 +44,6 @@ class App extends Component {
         lastName:$('#last_name').val(),
         phoneNumber:$('#number').val()
       }
-
-      this.setState({newContact:newContact})
 
       fetch('http://localhost:3000/phone_book/post',{
       method:'POST',
@@ -57,16 +59,18 @@ class App extends Component {
        
       deleteContact(contacts){
         this.setState({contacts})
-      }    
+      }   
+
 
 
   render() {
     const contacts=this.state.contacts;
+   
     return (
       <div>
       <h1>Phone Book</h1>
       <form>
-      <input type='text'  onChange={this.search.bind(this)}/>
+      <input type='text'  value={this.state.search} onChange={this.search.bind(this)}/>
       <Button bsStyle="success" className='searchButton'  onClick={this.setSearch.bind(this)}>Search</Button>
       <Button bsStyle="primary" data-toggle="modal" data-target="#modal" data-toggle="modal" data-target="#myModal">Add new</Button>
   <div className="modal fade" id="myModal" role="dialog">
@@ -83,7 +87,7 @@ class App extends Component {
           <p>Phone number:</p> <input type='text' id='number'/>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-default" onClick={this.addNew.bind(this)}>Save</button>
+          <button type="button" className="btn btn-default" data-dismiss="modal" onClick={this.addNew.bind(this)}>Save</button>
         </div>
       </div>
       
@@ -105,7 +109,7 @@ class App extends Component {
                                 first_name={contact.first_name}
                                 last_name={contact.last_name}
                                 number={contact.number}
-                                refresh={this.componentDidMount}
+                                refresh={this.refresh}
                                 deleteContact={this.deleteContact}
                                 />
       )}
@@ -122,7 +126,8 @@ class DisplayContacts extends Component{
   deleteContact(){
         fetch('http://localhost:3000/phone_book/delete' + this.props.id, {
             method: 'DELETE',
-        }).then(()=>{this.props.refresh.bind(this)})
+        })
+        // .then(()=>{this.props.refresh.bind(this)})
         .catch(err => {
             console.log(err);
         })
