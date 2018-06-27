@@ -1,3 +1,4 @@
+
 import React, { Component } from 'react';
 import './App.css';
 
@@ -29,27 +30,34 @@ class App extends Component {
      //  )
   }
 
+ 
+
   componentDidMount(){
-      fetch("http://localhost:3000/phone_book/contacts")
+        fetch("http://localhost:3000/phone_book/contacts")
       .then(response => response.json())
       .then(json => this.setState({contacts:json}))
-      .catch(error => {console.log(error)})    }
+      .catch(error => {console.log(error)})          
+    }
 
 
     
    addNew(){
 
       let newContact={
-        firstName:$('#first_name').val(),
-        lastName:$('#last_name').val(),
-        phoneNumber:$('#number').val()
+        first_name:$('#first_name').val(),
+        last_name:$('#last_name').val(),
+        number:$('#number').val()
       }
+
+      this.setState( prev=>({contacts:[...prev.contacts,newContact]}))
 
       fetch('http://localhost:3000/phone_book/post',{
       method:'POST',
       body:JSON.stringify(newContact),
+      headers: {
+                    'Content-Type': 'application/json'
+                }
           })
-      .then(this.setState( prev=>({contacts:[...prev.contacts,newContact]})))
       .then(()=> {this.componentDidMount()})
       .then((body)=>console.log(body))
       .then(console.log(newContact))
@@ -62,15 +70,14 @@ class App extends Component {
       }   
 
 
-
   render() {
     const contacts=this.state.contacts;
-   
+  
     return (
       <div>
       <h1>Phone Book</h1>
       <form>
-      <input type='text'  value={this.state.search} onChange={this.search.bind(this)}/>
+      <input type='text'   onChange={this.search.bind(this)}/>
       <Button bsStyle="success" className='searchButton'  onClick={this.setSearch.bind(this)}>Search</Button>
       <Button bsStyle="primary" data-toggle="modal" data-target="#modal" data-toggle="modal" data-target="#myModal">Add new</Button>
   <div className="modal fade" id="myModal" role="dialog">
@@ -115,6 +122,7 @@ class App extends Component {
       )}
       <DisplayContacts contacts={contacts}/>
       </table>
+      
       </div>
     );
   }
@@ -127,11 +135,12 @@ class DisplayContacts extends Component{
         fetch('http://localhost:3000/phone_book/delete' + this.props.id, {
             method: 'DELETE',
         })
-        // .then(()=>{this.props.refresh.bind(this)})
         .catch(err => {
             console.log(err);
         })
-      }
+
+window.location.reload()      
+}
       
   render(){
   return( 
@@ -149,3 +158,4 @@ class DisplayContacts extends Component{
 
 
 export default App;
+
