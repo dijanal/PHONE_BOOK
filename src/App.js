@@ -23,11 +23,11 @@ class App extends Component {
 
   setSearch(){
     console.log(this.state.search)
-
-     // this.state.contacts.filter(
-     //  (contact) => {return contact.first_name.toLowerCase().indexOf(this.state.search) !== -1;
-     //  }
-     //  )
+  //   this.state.contacts.filter((name) =>{ console.log( name.first_name.toLowerCase().indexOf(this.state.search.toLowerCase()) >=0)})
+  //    // this.state.contacts.filter(
+  //    //  (contact) => {console.log( contact.first_name.toLowerCase().indexOf(this.state.search) !== -1);
+  //    //  }
+  //     // )
   }
 
  
@@ -58,7 +58,7 @@ class App extends Component {
                     'Content-Type': 'application/json'
                 }
           })
-      .then(()=> {this.componentDidMount()})
+      // .then(()=> {this.componentDidMount()})
       .then((body)=>console.log(body))
       .then(console.log(newContact))
       .catch(error => {console.log(error)})
@@ -69,10 +69,22 @@ class App extends Component {
         this.setState({contacts})
       }   
 
+// deletedContact= (key,user_id) => {
+
+//   let users= [...this.state.contacts];
+//   users.splice(key, 1);
+//   this.setState({contacts:users});
+//     let del={"id":user_id};}
+
+//   fetch('http://localhost:3000/phone_book/delete' + id,{
+//     method:'DELETE',
+//     body:JSON.stringify(del),
+//     headers:{"Content-Type":"application/json"}
+//   }) 
+// }
 
   render() {
-    const contacts=this.state.contacts;
-  
+    const contacts=this.state.contacts.filter((name) =>{ return name.first_name.toLowerCase().indexOf(this.state.search) !==-1})
     return (
       <div>
       <h1>Phone Book</h1>
@@ -104,7 +116,6 @@ class App extends Component {
       <table className="table table-striped table-dark">
       <thead>
       <tr>
-      <th>ID</th>
       <th>First name</th>
       <th>Last name</th>
       <th>Phone number</th>
@@ -116,13 +127,15 @@ class App extends Component {
                                 first_name={contact.first_name}
                                 last_name={contact.last_name}
                                 number={contact.number}
-                                refresh={this.refresh}
+                                contact={contact}
                                 deleteContact={this.deleteContact}
                                 />
       )}
-      <DisplayContacts contacts={contacts}/>
       </table>
+      <div>
       
+      </div>
+
       </div>
     );
   }
@@ -130,23 +143,43 @@ class App extends Component {
 
 class DisplayContacts extends Component{
 
+  // constructor(props){
+  //   super(props)
+  //   this.state={contacts:[]}
+  // }
+
+  // componentDidMount(){
+  //     fetch("http://localhost:3000/phone_book/contacts")
+  //     .then(response => response.json())
+  //     .then(json => this.setState({contacts:json}),console.log(this.state.contacts))
+  //     .catch(error => {console.log(error)}) 
+
+  // }
+
 
   deleteContact(){
+
+      // this.setState( prev=>({contacts:[...prev.contacts,this.props.deletedContact]}))
+
         fetch('http://localhost:3000/phone_book/delete' + this.props.id, {
             method: 'DELETE',
+
         })
+        // .then(()=> {this.componentDidMount()})
         .catch(err => {
             console.log(err);
         })
 
 window.location.reload()      
 }
+
+
+
       
   render(){
   return( 
   <tbody> 
   <tr>
-    <td>{this.props.id}</td>
     <td >{this.props.first_name}</td>
     <td >{this.props.last_name}</td>
     <td>{this.props.number}</td>
