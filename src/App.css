@@ -1,12 +1,12 @@
 body {
 	background: url('./assets/background.jpg') no-repeat center center fixed;
 	-webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+  	display: flex;
+  	justify-content: center;
+  	align-items: center;
   	font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif	
 
 }
@@ -36,5 +36,4 @@ i{
 	margin-bottom: 5px;
 /*	text-align: center;
 */}
-
 
